@@ -26,5 +26,9 @@ class TestStackpy(unittest.TestCase):
         sites = self.stackpy.sites().items
         self.assertGreater(len(sites), 0)
 
+    def test_users_by_no_id(self):
+        users = self.stackpy.users([])
+        self.assertEqual(users.items, [])
+
 if __name__ == '__main__':
     unittest.main()

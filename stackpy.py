@@ -68,7 +68,9 @@ class Stackpy:
         return self._api_fetch('/sites', siteless=True, item_type=Site)
     
     def users(self, ids=None, **kwargs):
-        if ids:
+        if ids is not None:
+            if len(ids) == 0:
+                return Response({'items': []}, None)
             ids = ';'.join([str(user_id) for user_id in ids])
             users = self._api_fetch('/users/%s' % ids, item_type=User, **kwargs)
         else:
