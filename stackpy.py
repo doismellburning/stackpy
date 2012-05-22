@@ -11,7 +11,7 @@ class Stackpy:
     host = 'api.stackexchange.com'
     version = '2.0'
     site = None
-    key = None
+    key = '7YoesYKhJ0cCBsoJc)JaRQ(('
     access_token = None
 
     def __init__(self):
