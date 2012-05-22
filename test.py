@@ -1,5 +1,11 @@
+import doctest
 import unittest
 import stackpy
+
+def load_tests(loader, tests, pattern):
+    tests.addTests(doctest.DocTestSuite(stackpy))
+    tests.addTests(doctest.DocFileSuite('README.md'))
+    return tests
 
 class TestStackpy(unittest.TestCase):
     """
