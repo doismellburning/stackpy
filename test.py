@@ -13,6 +13,9 @@ class TestStackpy(unittest.TestCase):
 
     TODO Sort some mocks such that this dependency is removed? Running on Travis would be nice
     """
+
+    ME = 928098
+
     def setUp(self):
         self.stackpy = stackpy.Stackpy()
 
@@ -20,12 +23,11 @@ class TestStackpy(unittest.TestCase):
         self.stackpy.users()
 
     def test_users_by_id(self):
-        ME = 928098
-        users = self.stackpy.users([ME])
+        users = self.stackpy.users([self.ME])
         self.assertEqual(len(users.items), 1)
         user = users.items[0]
         #print user.__dict__
-        self.assertEqual(user.user_id, ME)
+        self.assertEqual(user.user_id, self.ME)
         self.assertIn('Kristian', user.display_name)
 
     def test_sites(self):
