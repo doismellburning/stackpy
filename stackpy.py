@@ -53,7 +53,7 @@ class Stackpy:
         data = Response(self, data, item_type)
         if data.backoff:
             #TODO Handle backoff
-            print 'Got backoff of %d - currently unhandled...' % data.backoff
+            print('Got backoff of %d - currently unhandled...' % data.backoff)
 
         return data
 
@@ -97,7 +97,7 @@ class Base(object):
         self.stackpy = stackpy
         if DEBUG:
             self.data = data
-            print data
+            print(data)
         for key, value in data.iteritems():
             if key.startswith('_'):
                 continue
