@@ -45,6 +45,7 @@ class TestStackpy(unittest.TestCase):
 
     def test_join_ids(self):
         self.assertEqual(stackpy._join_ids([1,2,3]), '1;2;3')
+        self.assertEqual(stackpy._join_ids(['1','2','3']), '1;2;3')
 
     def test_join_bad_ids(self):
         try:

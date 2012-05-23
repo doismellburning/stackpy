@@ -87,9 +87,7 @@ class Stackpy:
         return self._api_fetch('/me', item_type=User)
 
 def _join_ids(ids):
-    invalid_ids = [thing for thing in ids if not isinstance(thing, int)]
-    if invalid_ids:
-        raise ValueError('Invalid ids: %s' % invalid_ids)
+    int_ids = [int(id_) for id_ in ids] #Convert to ints first, so we TypeError on invalid ids
     return ';'.join([str(id_) for id_ in ids])
 
 class Base(object):
