@@ -54,5 +54,11 @@ class TestStackpy(unittest.TestCase):
         except ValueError:
             pass
 
+    def test_paging(self):
+        # We'll assume I'll never have this many badges...
+        r = self.stackpy.user_badges([self.ME], page=1000)
+        self.assertFalse(r.has_more)
+        self.assertEqual(r.items, [])
+
 if __name__ == '__main__':
     unittest.main()

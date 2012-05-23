@@ -78,9 +78,9 @@ class Stackpy:
 
         return users
 
-    def user_badges(self, user_ids, **kwards):
+    def user_badges(self, user_ids, **kwargs):
         ids = _join_ids(user_ids)
-        return self._api_fetch("/users/%s/badges" % ids, item_type=Badge)
+        return self._api_fetch("/users/%s/badges" % ids, item_type=Badge, **kwargs)
 
     def me(self):
         #TODO Assert access_token
