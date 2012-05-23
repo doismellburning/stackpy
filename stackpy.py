@@ -133,8 +133,8 @@ class User(Base):
         else:
             return value
 
-    def badges(self):
-        return self.stackpy.user_badges([self.user_id])
+    def badges(self, **kwargs):
+        return self.stackpy.user_badges([self.user_id], **kwargs)
 
 class BadgeCount(Base):
     pass
