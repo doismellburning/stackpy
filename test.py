@@ -43,5 +43,16 @@ class TestStackpy(unittest.TestCase):
         my_badges = me.badges().items
         self.assertGreater(len(my_badges), 5)
 
+    def test_join_ids(self):
+        self.assertEqual(stackpy._join_ids([1,2,3]), '1;2;3')
+
+    def test_join_bad_ids(self):
+        try:
+            bad_ids = ['goat']
+            bad = stackpy._join_ids(bad_ids)
+            self.fail('Should barf attempting to join %s (instead got %s)' % (bad_ids, bad))
+        except ValueError:
+            pass
+
 if __name__ == '__main__':
     unittest.main()

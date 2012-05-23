@@ -71,7 +71,7 @@ class Stackpy:
         if ids is not None:
             if len(ids) == 0:
                 return Response(self, {'items': []}, None)
-            ids = ';'.join([str(user_id) for user_id in ids])
+            ids = _join_ids(ids)
             users = self._api_fetch('/users/%s' % ids, item_type=User, **kwargs)
         else:
             users = self._api_fetch("/users", item_type=User, **kwargs)
@@ -79,13 +79,18 @@ class Stackpy:
         return users
 
     def user_badges(self, user_ids, **kwards):
-        #TODO Sanitisation
-        ids = ';'.join([str(user_id) for user_id in user_ids])
+        ids = _join_ids(user_ids)
         return self._api_fetch("/users/%s/badges" % ids, item_type=Badge)
 
     def me(self):
         #TODO Assert access_token
         return self._api_fetch('/me', item_type=User)
+
+def _join_ids(ids):
+    invalid_ids = [thing for thing in ids if not isinstance(thing, int)]
+    if invalid_ids:
+        raise ValueError('Invalid ids: %s' % invalid_ids)
+    return ';'.join([str(id_) for id_ in ids])
 
 class Base(object):
     def __init__(self, stackpy, data):
