@@ -50,7 +50,7 @@ class Stackpy:
             raise StackpyError(data['error_id'], data['error_name'],
                 data['error_message'])
 
-        data = Response(data, item_type)
+        data = Response(self, data, item_type)
         if data.backoff:
             #TODO Handle backoff
             print 'Got backoff of %d - currently unhandled...' % data.backoff
@@ -70,7 +70,7 @@ class Stackpy:
     def users(self, ids=None, **kwargs):
         if ids is not None:
             if len(ids) == 0:
-                return Response({'items': []}, None)
+                return Response(self, {'items': []}, None)
             ids = ';'.join([str(user_id) for user_id in ids])
             users = self._api_fetch('/users/%s' % ids, item_type=User, **kwargs)
         else:
@@ -78,12 +78,18 @@ class Stackpy:
 
         return users
 
+    def user_badges(self, user_ids, **kwards):
+        #TODO Sanitisation
+        ids = ';'.join([str(user_id) for user_id in user_ids])
+        return self._api_fetch("/users/%s/badges" % ids, item_type=Badge)
+
     def me(self):
         #TODO Assert access_token
         return self._api_fetch('/me', item_type=User)
 
 class Base(object):
-    def __init__(self, data):
+    def __init__(self, stackpy, data):
+        self.stackpy = stackpy
         if DEBUG:
             self.data = data
             print data
@@ -99,10 +105,10 @@ class Response(Base):
     """ http://api.stackexchange.com/docs/wrapper """
     backoff = None
 
-    def __init__(self, data, item_type=None):
-        super(Response, self).__init__(data)
+    def __init__(self, stackpy, data, item_type=None):
+        super(Response, self).__init__(stackpy, data)
         # TODO Handle item_type being None / a type being included
-        item_objs = [item_type(item) for item in self.items]
+        item_objs = [item_type(stackpy, item) for item in self.items]
         self.items = item_objs
 
 class StackpyError(Exception):
@@ -118,14 +124,20 @@ class StackpyError(Exception):
 class User(Base):
     def _coerce(self, key, value):
         if key == 'badge_counts':
-            return BadgeCount(value)
+            return BadgeCount(self.stackpy, value)
         else:
             return value
+
+    def badges(self):
+        return self.stackpy.user_badges([self.user_id])
 
 class BadgeCount(Base):
     pass
 
 class Site(Base):
+    pass
+
+class Badge(Base):
     pass
 
 def oauth_explicit_one(client_id, redirect_uri, scope=None, state=None):

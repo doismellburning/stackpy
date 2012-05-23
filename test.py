@@ -38,5 +38,10 @@ class TestStackpy(unittest.TestCase):
         users = self.stackpy.users([])
         self.assertEqual(users.items, [])
 
+    def test_my_badges(self):
+        me = self.stackpy.users([self.ME]).items[0]
+        my_badges = me.badges().items
+        self.assertGreater(len(my_badges), 5)
+
 if __name__ == '__main__':
     unittest.main()
