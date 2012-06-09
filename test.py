@@ -61,5 +61,11 @@ class TestStackpy(unittest.TestCase):
         self.assertFalse(r.has_more)
         self.assertEqual(r.items, [])
 
+    def test_sites(self):
+        self.stackpy.sites()
+        sites = self.stackpy.sites(pagesize=1).items
+        self.assertEqual(len(sites), 1)
+
+
 if __name__ == '__main__':
     unittest.main()

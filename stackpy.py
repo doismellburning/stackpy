@@ -64,8 +64,8 @@ class Stackpy:
         data = gzipfile.read()
         return data
 
-    def sites(self):
-        return self._api_fetch('/sites', siteless=True, item_type=Site)
+    def sites(self, **kwargs):
+        return self._api_fetch('/sites', siteless=True, item_type=Site, **kwargs)
     
     def users(self, ids=None, **kwargs):
         if ids is not None:
