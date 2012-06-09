@@ -2,7 +2,11 @@ import httplib
 import urllib
 from StringIO import StringIO
 import gzip
-import json
+
+try:
+    import simplejson as json
+except ImportError:
+    import json
 
 DEBUG = True
 DEBUG = False
