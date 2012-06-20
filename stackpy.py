@@ -2,7 +2,11 @@ import httplib
 import urllib
 from StringIO import StringIO
 import gzip
-import json
+
+try:
+    import simplejson as json
+except ImportError:
+    import json
 
 DEBUG = True
 DEBUG = False
@@ -64,8 +68,8 @@ class Stackpy:
         data = gzipfile.read()
         return data
 
-    def sites(self):
-        return self._api_fetch('/sites', siteless=True, item_type=Site)
+    def sites(self, **kwargs):
+        return self._api_fetch('/sites', siteless=True, item_type=Site, **kwargs)
     
     def users(self, ids=None, **kwargs):
         if ids is not None:
@@ -87,9 +91,7 @@ class Stackpy:
         return self._api_fetch('/me', item_type=User)
 
 def _join_ids(ids):
-    invalid_ids = [thing for thing in ids if not isinstance(thing, int)]
-    if invalid_ids:
-        raise ValueError('Invalid ids: %s' % invalid_ids)
+    int_ids = [int(id_) for id_ in ids] #Convert to ints first, so we TypeError on invalid ids
     return ';'.join([str(id_) for id_ in ids])
 
 class Base(object):
@@ -133,8 +135,8 @@ class User(Base):
         else:
             return value
 
-    def badges(self):
-        return self.stackpy.user_badges([self.user_id])
+    def badges(self, **kwargs):
+        return self.stackpy.user_badges([self.user_id], **kwargs)
 
 class BadgeCount(Base):
     pass
