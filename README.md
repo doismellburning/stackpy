@@ -10,11 +10,11 @@ Currently somewhat alpha.
 
 For the latest stable version:
 
-* pip install stackpy
+    pip install stackpy
 
 OR for the bleeding edge:
 
-* git clone https://github.com/doismellburning/stackpy.git
+    git clone https://github.com/doismellburning/stackpy.git
 
 # Examples #
 
